@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Spents\Infrastructure\Entrypoint\Http\SpentsController;
 use Spents\Infrastructure\Persistence\Smartcash\SmartcashSpentsByMonthRepository;
 
 /*
@@ -32,7 +33,8 @@ Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login'
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
-        'logSpents' => (new SmartcashSpentsByMonthRepository())->execute()
+        'logSpents' => (new SmartcashSpentsByMonthRepository())->execute(),
+        'diagramMonth' => (new SpentsController())->getDiagramSpentsByMonth()
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <SpentsRegisterByMonth @showModalSpentsByCategory="showModalSpentsByCategory" class="col-6" :logSpents="logSpents"></SpentsRegisterByMonth>
-        <DiagramTypeSpentsByMonth class="col-6" :typeSpents="typeSpents"></DiagramTypeSpentsByMonth>
+        <DiagramTypeSpentsByMonth class="col-6" :diagramMonth="diagramMonth"></DiagramTypeSpentsByMonth>
     </div>
     <ModalSpentsByCategory :spentsByCategoryProps="spentsByCategory"></ModalSpentsByCategory>
 </template>
@@ -10,7 +10,7 @@ import SpentsRegisterByMonth from "./Spents/Register.vue"
 import DiagramTypeSpentsByMonth from "@/Pages/Finances/Diagram/DiagramTypeSpents.vue";
 import ModalSpentsByCategory from "@/Pages/Finances/Spents/Modals/ModalSpentsByCategory.vue";
 export default {
-    props: ['logSpents', 'typeSpents'],
+    props: ['logSpents', 'diagramMonth'],
     components: {ModalSpentsByCategory, DiagramTypeSpentsByMonth, SpentsRegisterByMonth},
     computed: {
 

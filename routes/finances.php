@@ -6,5 +6,6 @@ Route::prefix('finances')
     ->middleware(['auth', 'verified'])
     ->group(function () {
         Route::get('/', [SpentsController::class, 'getByDate']);
+        Route::get('/diagram-month', [SpentsController::class, 'getDiagramSpentsByMonth']);
     });
 

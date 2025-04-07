@@ -18,7 +18,7 @@
             <div class="mt-3 max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="overflow-hidden sm:rounded-lg">
                     <div class=" text-gray-900">
-                        <DashboardFinances :logSpents="logSpents" :typeSpents="typeSpents"></DashboardFinances>
+                        <DashboardFinances :logSpents="logSpents" :diagramMonth="diagramMonth"></DashboardFinances>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DashboardFinances from "@/Pages/Finances/Index.vue"
 import { Head } from '@inertiajs/vue3';
 export default {
-    props: ['logSpents', 'typeSpents'],
+    props: ['logSpents', 'diagramMonth'],
     components: {AuthenticatedLayout, DashboardFinances, Head}
 }
 </script>
