@@ -11,7 +11,8 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
-        "tightenco/ziggy": "^2.0"
+        "tightenco/ziggy": "^2.0",
+        "ext-http": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -28,7 +29,9 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Spents\\": "src/Finances/Spents"
+            "Spents\\": "src/Finances/Spents",
+            "Spent\\": "src/Finances/Spent",
+            "Category\\": "src/Finances/Category"
         }
     },
     "autoload-dev": {

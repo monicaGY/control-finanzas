@@ -2,11 +2,10 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use Category\Infrastructure\Entrypoint\Http\CategoryController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Spents\Infrastructure\Entrypoint\Http\SpentsController;
-use Spents\Infrastructure\Persistence\Smartcash\SmartcashSpentsByMonthRepository;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,8 +32,10 @@ Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login'
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
-        'logSpents' => (new SmartcashSpentsByMonthRepository())->execute(),
-        'diagramMonth' => (new SpentsController())->getDiagramSpentsByMonth()
+        'logSpentsProps' => (new SpentsController())->getByDate(),
+        'diagramTypeSpentsProps' => (new SpentsController())->getSpentsByType(),
+        'categories' => (new CategoryController())->getAllCategories(),
+        'diagramCategorySpentsProps' => (new SpentsController())->getSpentsByCategory()
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

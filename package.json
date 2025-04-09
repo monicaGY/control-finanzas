@@ -19,6 +19,7 @@
         "vue-loader": "^17.4.2"
     },
     "dependencies": {
+        "vue-cal": "^5.0.1-rc.14",
         "ziggy-js": "^2.5.2"
     }
 }

@@ -1,31 +1,48 @@
 <template>
     <div class="row">
         <SpentsRegisterByMonth @showModalSpentsByCategory="showModalSpentsByCategory" class="col-6" :logSpents="logSpents"></SpentsRegisterByMonth>
-        <DiagramTypeSpentsByMonth class="col-6" :diagramMonth="diagramMonth"></DiagramTypeSpentsByMonth>
+        <DiagramCategorySpents class="col-6" :diagramCategorySpents="diagramCategorySpents"></DiagramCategorySpents>
     </div>
-    <ModalSpentsByCategory :spentsByCategoryProps="spentsByCategory"></ModalSpentsByCategory>
+    <ModalAddRegister :categoriesProps="categories" @emitUploadSpents="uploadSpents" :dateProps="dateProps"></ModalAddRegister>
+    <ModalSpentsByCategory :spentsByCategoryProps="spentsByCategory" @emitUploadSpents="uploadSpents"></ModalSpentsByCategory>
 </template>
 <script>
 import SpentsRegisterByMonth from "./Spents/Register.vue"
-import DiagramTypeSpentsByMonth from "@/Pages/Finances/Diagram/DiagramTypeSpents.vue";
+import DiagramCategorySpents from "@/Pages/Finances/Diagram/DiagramCategorySpents.vue";
 import ModalSpentsByCategory from "@/Pages/Finances/Spents/Modals/ModalSpentsByCategory.vue";
+import ModalAddRegister from "@/Pages/Finances/Spents/Modals/ModalAddRegister.vue";
+import {route} from "ziggy-js";
 export default {
-    props: ['logSpents', 'diagramMonth'],
-    components: {ModalSpentsByCategory, DiagramTypeSpentsByMonth, SpentsRegisterByMonth},
-    computed: {
-
-    },
+    props: ['logSpentsProps', 'diagramCategorySpentsProps', 'categoriesProps', 'dateProps'],
+    components: {ModalSpentsByCategory, DiagramCategorySpents, SpentsRegisterByMonth, ModalAddRegister},
     data(){
         return {
-            spentsByCategory: []
+            spentsByCategory: [],
+            logSpents: this.logSpentsProps,
+            diagramCategorySpents: this.diagramCategorySpentsProps,
+            categories: this.categoriesProps,
+            categoryId: null
+        }
+    },
+    watch:{
+        diagramCategorySpentsProps(){
+            this.diagramCategorySpents = this.diagramCategorySpentsProps
+        },
+        logSpentsProps(){
+            this.logSpents = this.logSpentsProps
         }
     },
     methods: {
         showModalSpentsByCategory(categoryId){
-            this.spentsByCategory = this.logSpents.filter(item => item['category-id'] === categoryId)
+            this.categoryId = categoryId
+            this.spentsByCategory = this.logSpents.filter(item => item['category-id'] === this.categoryId)
             $('#modalSpentsByCategory').modal('show');
-
-
+        },
+        async uploadSpents(){
+            this.$emit('emitUploadSpents')
+            if(this.spentsByCategory.length === 0){
+                $('#modalSpentsByCategory').modal('hide');
+            }
         }
     }
 }

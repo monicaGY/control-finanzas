@@ -3,35 +3,39 @@
 namespace Spents\Infrastructure\Persistence\Smartcash;
 
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spents\Domain\Model\LogSpent;
 use Spents\Domain\Model\LogsSpents;
-use Spents\Domain\Service\SpentsByMonthRepository;
-use Illuminate\Support\Carbon;
+use Spents\Domain\Model\SpentsRepository;
 
-class SmartcashSpentsByMonthRepository implements SpentsByMonthRepository
+class SmartcashSpentsRepository implements SpentsRepository
 {
     private string $connection = 'smartcash';
     private const LOG = 'all_spents_by_user';
     private LogsSpents $logSpents;
-
     public function __construct()
     {
         $this->logSpents = new LogsSpents();
     }
 
-    public function execute(Carbon $date = null): array
+    public function get($year, $month): array
     {
-        if($date === null){
-            $date = Carbon::now();
+        if(!$year and !$month){
+            $year  = Carbon::now()->year;
+            $month = Carbon::now()->month;
         }
 
-        $this->query()
+        $query = $this->query()
             ->where('l.user_id', Auth::user()->getAuthIdentifier())
-            ->whereMonth('date', $date->format('m'))
-            ->whereYear('date', $date->format('Y'))
-            ->orderByDesc('l.date')
+            ->whereYear('date', $year);
+
+        if($month){
+            $query = $query
+                ->whereMonth('date', $month);
+        }
+        $query->orderByDesc('l.date')
             ->get()->map(fn ($spent) => $this->createLog($spent));
 
         return $this->logSpents->getLogs();

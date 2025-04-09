@@ -6,12 +6,12 @@ class TransformerSpentsByMonthDiagram
 {
     private const EXPENSES = 1;
     private const INCOME = 2;
-    public function transform(array $spents):array
+    public function transform($title, array $spents):array
     {
         $expenses = $this->calculateTotalSpents($spents, self::EXPENSES);
         $income = $this->calculateTotalSpents($spents, self::INCOME);
         return [
-            'month' => 'April 2025',
+            'month' => $title,
             'labels' => ['Expenses', 'Incomes'],
             'data' => [$expenses, $income],
         ];
@@ -24,6 +24,5 @@ class TransformerSpentsByMonthDiagram
             }
             return $carry;
         }, 0);
-
     }
 }

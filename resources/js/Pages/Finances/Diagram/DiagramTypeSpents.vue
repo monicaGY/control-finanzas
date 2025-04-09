@@ -1,38 +1,53 @@
 <template>
-    <div>
-        <div class="mt-2 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="mx-3 my-4 row text-gray-900">
-                <canvas style="min-height:250px" id="chartBuildByCategories" ></canvas>
-            </div>
-
-        </div>
+    <div ref="graphsTypeSpents">
     </div>
 </template>
 <script>
 export default {
-    props: ['diagramMonth'],
+    props: ['diagramTypeSpents'],
     data(){
         return {
             chartBuild: null,
+            canva: null
+        }
+    },
+    watch: {
+        diagramTypeSpents(){
+            this.buildChartByMonth()
         }
     },
     mounted() {
-        console.log('diagram', this.diagramMonth)
+
         this.buildChartByMonth()
     },
     methods:{
         buildChartByMonth(){
+            if (this.chartBuild) {
+                this.chartBuild.destroy();
+                this.chartBuild = null;
+            }
 
-            const ctx = document.getElementById('chartBuildByCategories');
+            if (this.canva) {
+                this.canva.remove();
+                this.canva = null;
+            }
+
+            const container = this.$refs.graphsTypeSpents;
+
+            this.canva = document.createElement('canvas');
+            this.canva.style.minHeight = '250px';
+            container.appendChild(this.canva);
+
+            const ctx = this.canva.getContext('2d');
 
             this.chartBuild = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: this.diagramMonth.labels,
+                    labels: this.diagramTypeSpents.labels,
                     datasets: [{
                         axis: 'y',
-                        label: this.diagramMonth.month,
-                        data: this.diagramMonth.data,
+                        label: this.diagramTypeSpents.month,
+                        data: this.diagramTypeSpents.data,
                         backgroundColor: [
                             'rgba(255,206,111,0.5)',
                             'rgba(255,167,250,0.5)'
@@ -48,21 +63,18 @@ export default {
                     indexAxis: 'y',
                     responsive: true,
                     plugins: {
-                        legend: {
-                            display: false
-                        },
+                        legend: { display: false },
                         title: {
                             display: true,
-                            text: this.diagramMonth.month
+                            text: this.diagramTypeSpents.month
                         }
                     },
                     scales: {
-                        x: {
-                            beginAtZero: true
-                        }
+                        x: { beginAtZero: true }
                     }
                 }
             });
+
         },
     }
 }

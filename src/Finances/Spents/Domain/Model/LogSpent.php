@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 class LogSpent
 {
     public function __construct(
+        private readonly int $id,
         private readonly int $categoryId,
         private readonly string $category,
         private readonly int $typeId,
@@ -21,6 +22,7 @@ class LogSpent
     public static function create($spent): LogSpent
     {
         return new self(
+            $spent->id,
             $spent->categoryId,
             $spent->categoryName,
             $spent->typeId,
@@ -39,6 +41,7 @@ class LogSpent
     public function toArray(): array
     {
         return [
+            'id' => $this->id,
             'category' => $this->category,
             'type' => $this->type,
             'date' => $this->date(),

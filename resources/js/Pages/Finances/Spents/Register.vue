@@ -1,5 +1,13 @@
 <template>
     <div>
+        <div class="mt-2 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 row text-gray-900" data-bs-toggle="modal" data-bs-target="#modalAddRegister">
+                <div class="col">Recorded movements</div>
+                <div class="col-auto">
+                    <a title="Add" href="javascript:void(0)" style="background-color: #fffc11" class="icon-add"><i class="fa-solid fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
         <div v-for="item in spentsByCategories" class="mt-2 bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 row text-gray-900">
                 <div :style="{'background-color': item.iconColor}" class="icon-container">
@@ -69,6 +77,18 @@ export default {
     color: white;
     font-size: 24px;
     margin: 5px;
+}
+
+.icon-add {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    margin: 3px;
 }
 
 </style>
