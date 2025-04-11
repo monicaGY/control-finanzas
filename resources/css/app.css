@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.bg-dark-form{
+    background-color: #474747;
+    color: #ffffff;
+}
+.bg-orange-button{
+    background-color: #fca128;
+}
+.text-orange{
+    color: #fca128
+}
+.background-grey{
+    background-color: #b5b5b5;
+}

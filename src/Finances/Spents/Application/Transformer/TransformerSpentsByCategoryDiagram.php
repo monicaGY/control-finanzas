@@ -9,10 +9,13 @@ class TransformerSpentsByCategoryDiagram
     {
         $result = [];
         foreach ($spents as $spent) {
+            $typeId = $spent['type-id'];
             $categoryId = $spent['category-id'];
-            if(!isset($result['cat-'.$categoryId])){
+            $index = 'type-'.$typeId.'cat-'.$categoryId;
+            if(!isset($result[$index])){
 
-                $result['cat-'.$categoryId] = [
+                $result[$index] = [
+                    'type-id' => $typeId,
                     'category-id' => $categoryId,
                     'category' => $spent['category'],
                     'total' => array_reduce($spents, function ($carry, $item) use ($categoryId) {
@@ -20,7 +23,8 @@ class TransformerSpentsByCategoryDiagram
                             return $carry + $item['amount'];
                         }
                         return $carry;
-                    }, 0)
+                    }, 0),
+                    'iconColor' => $spent['iconColor'],
                 ];
             }
         }

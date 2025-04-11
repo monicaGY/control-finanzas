@@ -10,6 +10,9 @@
                     <div v-if="error" class="alert alert-warning" role="alert">
                         {{error}}
                     </div>
+                    <div v-if="message" class="alert alert-success" role="alert">
+                        {{message}}
+                    </div>
                     <div class="col container">
                         <div class="row align-items-center" v-for="item in spentsByCategory">
                             <div :style="{'background-color': item.iconColor}" class="icon-container col-auto">
@@ -54,12 +57,14 @@ export default {
         return{
             category: this.spentsByCategoryProps.length === 0 ? '': this.spentsByCategoryProps[0].category,
             error: null,
-            spentsByCategory: this.generateSpentsFormat
+            spentsByCategory: this.generateSpentsFormat,
+            message: null
         }
     },
     watch: {
         spentsByCategoryProps(){
-            this.edit = false
+            this.message = null
+            this.error = null
             this.category= this.spentsByCategoryProps.length === 0 ? '': this.spentsByCategoryProps[0].category
             this.spentsByCategory = this.generateSpentsFormat
         }
@@ -79,6 +84,7 @@ export default {
             axios.delete(route('spent.delete', id))
                 .then(() => {
                     this.$emit('emitUploadSpents')
+                    this.message = 'Successfully completed!'
                 })
         },
         spentEdit(id, spent){

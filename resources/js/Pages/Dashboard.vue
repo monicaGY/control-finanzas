@@ -9,7 +9,7 @@
         <div class="py-12">
             <div class="row max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="col-auto">
-                    <vue-cal date-picker :views="['year', 'month']"  style="height: 27rem; min-width: 20rem" @cell-click="logEvents($event)" @view-change="handleViewChange($event)"/>
+                    <vue-cal date-picker :views="['year', 'month']" style="height: 27rem; min-width: 20rem;background-color: #e6e4e4" @cell-click="logEvents($event)" @view-change="handleViewChange($event)"/>
                 </div>
                 <div class="col bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <DiagramTypeSpents :diagramTypeSpents="diagramTypeSpents"></DiagramTypeSpents>
@@ -59,7 +59,7 @@ export default {
     },
     data(){
         return {
-            date: this.dateFormat,
+            date: null,
             view: 'month',
             diagramTypeSpents: this.diagramTypeSpentsProps,
             diagramCategorySpents: this.diagramCategorySpentsProps,
@@ -67,6 +67,9 @@ export default {
             days: [],
             check: true,
         }
+    },
+    created() {
+        this.date = this.dateFormat;
     },
     watch:{
         days(){
@@ -109,9 +112,9 @@ export default {
             let year = new Date(this.date).getFullYear()
             let date = new Date(this.date)
             const month = String(date.getMonth() + 1).padStart(2, '0');
-            await this.buildDiagrams(year, month)
 
-            await this.updateLogSpents()
+            await this.buildDiagrams(year, month)
+            await this.updateLogSpents(year, month)
         },
         async buildDiagrams(year, month){
             let params = {year: year}

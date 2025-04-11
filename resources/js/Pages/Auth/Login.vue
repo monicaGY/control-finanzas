@@ -74,7 +74,7 @@ const submit = () => {
             <div class="block mt-4">
                 <label class="flex items-center">
                     <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600">Remember</span>
+                    <span class="ms-2 text-sm ">Remember</span>
                 </label>
             </div>
 
@@ -90,11 +90,14 @@ const submit = () => {
                     Log in
                 </PrimaryButton>
             </div>
-            <div class="text-center text-sm text-gray-600">
+            <div class="text-center text-sm">
                 <span>o</span>
             </div>
             <div class="text-center">
-                <a :href="route('register')" class="text-primary font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500">Register</a>
+                <div>
+                </div>
+                <a :href="route('register')" class="font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 text-orange">Register</a>
+
             </div>
         </form>
     </GuestLayout>

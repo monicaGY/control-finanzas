@@ -30,6 +30,7 @@ export default {
         },
         logSpentsProps(){
             this.logSpents = this.logSpentsProps
+            this.spentsByCategory = this.logSpents.filter(item => item['category-id'] === this.categoryId)
         }
     },
     methods: {

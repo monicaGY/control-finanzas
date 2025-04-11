@@ -19,7 +19,7 @@
                         <div class="col-auto">{{item.amount}}</div>
                     </div>
                     <div class="row mt-3">
-                        <button class="col-auto btn btn-primary ms-auto" @click="modalSpentsByCategory(item.categoryId)">Details</button>
+                        <button class="text-white col-auto btn btn-warning bg-orange-button ms-auto " @click="modalSpentsByCategory(item.categoryId)">Details</button>
                     </div>
 
                 </div>
