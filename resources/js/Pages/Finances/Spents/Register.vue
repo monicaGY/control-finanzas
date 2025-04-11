@@ -4,7 +4,7 @@
             <div class="p-6 row text-gray-900" data-bs-toggle="modal" data-bs-target="#modalAddRegister">
                 <div class="col">Recorded movements</div>
                 <div class="col-auto">
-                    <a title="Add" href="javascript:void(0)" style="background-color: #fffc11" class="icon-add"><i class="fa-solid fa-plus"></i></a>
+                    <a title="Add" href="javascript:void(0)" style="background-color: #0492f8" class="icon-add"><i class="fa-solid fa-plus"></i></a>
                 </div>
             </div>
         </div>

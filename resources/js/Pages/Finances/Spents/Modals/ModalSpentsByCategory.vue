@@ -18,15 +18,21 @@
                             <div :style="{'background-color': item.iconColor}" class="icon-container col-auto">
                                 <i :class="item.icon" class="fa-lg"></i>
                             </div>
+                            <div class="col-auto">
+                                {{item.type}}
+                            </div>
                             <div class="col text-center">
                                 <span v-if="!item.edit">{{item.amount}}</span>
                                 <span v-else>
-                                    <input class="text-center form-control" v-model="item.amountnew">
+                                    <input class="text-center form-control" type="number" v-model="item.amountnew">
                                 </span>
 
                             </div>
                             <div class="col-auto">
-                                {{item.date}}
+                                <span v-if="!item.edit">{{item.date}}</span>
+                                <span v-else>
+                                    <input class="text-center form-control" type="date" v-model="item.dateNew" >
+                                </span>
                             </div>
                             <div v-if="!item.edit" class="col-auto">
                                 <a href="javascript:void(0)" title="Edit" @click="item.edit = true">
@@ -74,12 +80,17 @@ export default {
             return this.spentsByCategoryProps.map(item => ({
                 ...item,
                 amountnew: item.amount,
+                dateNew: this.formartDate(item.date),
                 edit: false,
             }));
         }
     },
     methods: {
         route,
+        formartDate(date){
+            let dateSplit = date.split('/');
+            return `${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}`;
+        },
         spentDelete(id){
             axios.delete(route('spent.delete', id))
                 .then(() => {
@@ -91,9 +102,14 @@ export default {
             this.error = null
 
             axios.put(route('spent.upload', id), {
-                amount: spent.amountnew
+                amount: spent.amountnew,
+                date: spent.dateNew
             }).then(() => {
+                let dateSplit = spent.dateNew.split('-');
+                let date = `${dateSplit[2]}/${dateSplit[1]}/${dateSplit[0]}`;
+
                 spent.amount = spent.amountnew
+                spent.date = date
                 spent.edit = false
                 this.$emit('emitUploadSpents')
                 this.message = ''

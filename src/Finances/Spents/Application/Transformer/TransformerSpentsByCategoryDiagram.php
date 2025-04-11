@@ -18,8 +18,8 @@ class TransformerSpentsByCategoryDiagram
                     'type-id' => $typeId,
                     'category-id' => $categoryId,
                     'category' => $spent['category'],
-                    'total' => array_reduce($spents, function ($carry, $item) use ($categoryId) {
-                        if($item['category-id'] === $categoryId){
+                    'total' => array_reduce($spents, function ($carry, $item) use ($categoryId, $typeId) {
+                        if($item['category-id'] === $categoryId && $item['type-id'] === $typeId) {
                             return $carry + $item['amount'];
                         }
                         return $carry;

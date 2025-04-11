@@ -24,9 +24,7 @@ class SmartcashSpentRepository implements SpentRepository
         DB::connection($this->connection)
             ->table(self::TABLE_SPENTS)
             ->where('id', $id)
-            ->update([
-                'amount' => $spent['amount']
-            ]);
+            ->update($spent);
     }
 
     public function add($spent): void

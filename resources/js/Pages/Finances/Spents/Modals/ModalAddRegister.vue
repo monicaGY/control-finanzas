@@ -1,10 +1,10 @@
 <template>
-    <div class="modal fade" id="modalAddRegister" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalAddRegister" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Register movement</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="refactorValues"></button>
                 </div>
                 <div class="modal-body">
                     <div v-if="error" class="alert alert-danger" role="alert">
@@ -45,20 +45,17 @@
                         <label class="form-label">Select category: </label>
                     </div>
                     <div class="row">
-                        <div class="col-auto" v-for="item in categories" @click="select = item.id">
-                            <div class="icon-container" :style="{backgroundColor: item.iconColor, borderRadius: item.id ===select ? '10%' : '50%'}">
+                        <div class="col-auto mt-2" v-for="item in categories" @click="select = item.id">
+                            <div class="icon-container m-auto" :style="{backgroundColor: item.iconColor, borderRadius: item.id ===select ? '10%' : '50%'}">
                                 <i :class="item.icon" class="fa-lg"></i>
                             </div>
-                            <label class="form-label">{{ item.name }}</label>
+                            <div class="text-center mt-1" :class="item.id ===select? 'fw-bold text-decoration-underline':''">{{ item.name }}</div>
                         </div>
-
                     </div>
-
-
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="refactorValues">Cerrar</button>
                     <button type="button" class="btn btn-primary" @click="add">
                         Guardar
                     </button>
@@ -78,7 +75,7 @@ export default {
             form: {
                 type: 1,
                 date: this.dateProps,
-                amount: 100,
+                amount: 0,
                 categoryType: this.select
             },
             categories: this.categoriesProps,
@@ -89,7 +86,7 @@ export default {
     },
     watch: {
         dateProps(){
-            this.form.date = this.dateProps
+            this.refactorValues()
         },
     },
     mounted() {
@@ -107,12 +104,27 @@ export default {
             this.form.category = this.select
             axios.post(route('spent.add'), this.form).then(() => {
                 this.message = 'Successfully completed!'
+                this.refactorValues()
                 this.$emit('emitUploadSpents')
             }).catch(error => {
                 this.error = error.response.data.message
             })
         }
     },
+    methods: {
+        refactorValues(){
+            this.select = null
+            this.categories = this.formatCategories
+            this.form = {
+                type: 1,
+                    date: this.dateProps,
+                    amount: 0,
+                    categoryType: null
+            }
+            this.error = null
+            this.message = null
+        }
+    }
 }
 </script>
 

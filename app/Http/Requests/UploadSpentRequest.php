@@ -22,6 +22,7 @@ class UploadSpentRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'date' =>['required'],
             'amount' => ['required', 'numeric', 'min:0.01', 'regex:/^\d+(\.\d{1,2})?$/']
         ];
     }
