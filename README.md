@@ -27,8 +27,7 @@ cd finances
 cp .env.example .env
 
 # Update the following variables in .env file
-DB_DATABASE=laravel
-DB_USERNAME=root
+DB_HOST=db
 DB_PASSWORD=root
 
 # Add this variable in .env file
@@ -45,7 +44,6 @@ docker-compose up -d
 # Install PHP dependencies
 docker-compose exec app composer install
 
-
 # Generate application key
 docker-compose exec app php artisan key:generate
 ```
@@ -53,8 +51,8 @@ docker-compose exec app php artisan key:generate
 **Permission Issues**
    ```bash
    # Fix storage permissions
-   docker-compose exec laravel-vue-app chown -R www-data:www-data storage
-   docker-compose exec laravel-vue-app chmod -R 775 storage
+   docker-compose exec app chown -R www-data:www-data storage
+   docker-compose exec app chmod -R 775 storage
    ```
 
 ### 4. Node Setup
@@ -71,10 +69,10 @@ docker-compose exec app npm run build
 
 ```bash
 # Run database migrations
-docker-compose exec laravel-vue-app php artisan migrate
+docker-compose exec app php artisan migrate
 
 # Seed the database
-docker-compose exec laravel-vue-app php artisan db:seed
+docker-compose exec app php artisan db:seed
 ```
 
 ## Available Services
@@ -84,6 +82,6 @@ docker-compose exec laravel-vue-app php artisan db:seed
 | Application | `http://localhost:8081` |
 | MySQL | `3306` |
 
-### 5. Finances - login
+### 6. Finances - login
 **User:** `stefania@example.com`  
 **Password:** `password123!`
