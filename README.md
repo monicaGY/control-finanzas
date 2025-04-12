@@ -6,6 +6,7 @@ This guide explains how to set up this proyect
 Before you begin, ensure you have the following installed:
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
+- [Git](https://git-scm.com/downloads)
 
 ## Getting Started
 
