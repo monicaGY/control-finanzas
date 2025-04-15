@@ -56,7 +56,8 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="refactorValues">Cerrar</button>
-                    <button type="button" class="btn btn-primary" @click="add">
+                    <button type="button" class="btn btn-primary" @click="add" :disabled="isLoading">
+                        <span v-if="isLoading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                         Guardar
                     </button>
                 </div>
@@ -82,6 +83,7 @@ export default {
             select: null,
             error: null,
             message: null,
+            isLoading: false,
         }
     },
     watch: {
@@ -99,7 +101,10 @@ export default {
                 check: false,
             }));
         },
+    },
+    methods: {
         add(){
+            this.isLoading = true
             this.error = null
             this.form.category = this.select
             axios.post(route('spent.add'), this.form).then(() => {
@@ -108,10 +113,10 @@ export default {
                 this.$emit('emitUploadSpents')
             }).catch(error => {
                 this.error = error.response.data.message
+            }).finally(() => {
+                this.isLoading = false
             })
-        }
-    },
-    methods: {
+        },
         refactorValues(){
             this.select = null
             this.categories = this.formatCategories

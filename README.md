@@ -77,10 +77,10 @@ docker-compose exec app php artisan db:seed
 
 ## Available Services
 
-| Service | Port |
-|---------|------|
-| Application | `http://localhost:8081` |
-| MySQL | `3306` |
+| Service | Port                    |
+|---------|-------------------------|
+| Application | `http://localhost:8080` |
+| MySQL | `3306`                  |
 
 ### 6. Finances - login
 **User:** `stefania@example.com`  

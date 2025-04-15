@@ -34,18 +34,23 @@
                                     <input class="text-center form-control" type="date" v-model="item.dateNew" >
                                 </span>
                             </div>
-                            <div v-if="!item.edit" class="col-auto">
+                            <div v-if="!item.edit && !item.load" class="col-auto">
                                 <a href="javascript:void(0)" title="Edit" @click="item.edit = true">
                                     <i class="fa-solid fa-pen-to-square" style="color: #63E6BE;"></i>
                                 </a>
                             </div>
-                            <div class="col-auto">
-                                <a v-if="!item.edit" href="javascript:void(0)" @click="spentDelete(item.id)" title="Delete">
+                            <div class="col-auto" v-if="!item.load">
+                                <a v-if="!item.edit" href="javascript:void(0)" @click="item.load = true; spentDelete(item.id, item)" title="Delete">
                                     <i class="fa-solid fa-xmark" style="color: #ff0000;"></i>
                                 </a>
-                                <a v-else href="javascript:void(0)" title="Save" @click="spentEdit(item.id, item)">
+                                <a v-else href="javascript:void(0)" title="Save" @click="item.load = true; spentEdit(item.id, item)">
                                     <i class="fa-solid fa-check" style="color: #74C0FC;"></i>
                                 </a>
+                            </div>
+                            <div v-if="item.load" class="col-auto">
+                                <div class="spinner-border text-info" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -82,6 +87,7 @@ export default {
                 amountnew: item.amount,
                 dateNew: this.formartDate(item.date),
                 edit: false,
+                load: false,
             }));
         }
     },
@@ -91,11 +97,13 @@ export default {
             let dateSplit = date.split('/');
             return `${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}`;
         },
-        spentDelete(id){
+        spentDelete(id, spent){
             axios.delete(route('spent.delete', id))
                 .then(() => {
                     this.$emit('emitUploadSpents')
                     this.message = 'Successfully completed!'
+                }).finally(() => {
+                    spent.load = false
                 })
         },
         spentEdit(id, spent){
@@ -118,6 +126,8 @@ export default {
                 if(error.response){
                     this.error = error.response.data.message
                 }
+            }).finally(() => {
+                spent.load = false
             })
         }
     }
